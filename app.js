@@ -7,7 +7,8 @@ const cookieParser = require('cookie-parser');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { celebrateErrorHandler, generalErrorHandler } = require('./middlewares/errorHandler');
 const { ERR_GENERAL_MSG, ERR_NOT_FOUND_MSG_ROUTE } = require('./constants');
-const { NotFoundError404 } = require('./errors/NotFoundError404');
+const NotFoundError = require('./errors/NotFoundError404');
+const UserRouter = require('./routes/users');
 
 const app = express();
 const { PORT = 3000, MONGO_URI } = process.env;
@@ -34,8 +35,9 @@ start()
     app.use(cookieParser());
     app.use(requestLogger);
     // роуты
+    app.use(UserRouter);
     app.use((req, res, next) => {
-      next(new NotFoundError404(ERR_NOT_FOUND_MSG_ROUTE)); // защитить роут авторизацией
+      next(new NotFoundError(ERR_NOT_FOUND_MSG_ROUTE)); // защитить роут авторизацией
     });
     app.use(errorLogger);
     app.use(celebrateErrorHandler);
