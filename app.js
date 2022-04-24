@@ -9,6 +9,9 @@ const { celebrateErrorHandler, generalErrorHandler } = require('./middlewares/er
 const { ERR_GENERAL_MSG, ERR_NOT_FOUND_MSG_ROUTE } = require('./constants');
 const NotFoundError = require('./errors/NotFoundError404');
 const UserRouter = require('./routes/users');
+const MoviesRouter = require('./routes/movies');
+const auth = require('./middlewares/auth');
+const limiter = require('./middlewares/limiter');
 
 const app = express();
 const { PORT = 3000, MONGO_URI } = process.env;
@@ -28,16 +31,19 @@ start()
     app.use(cors({
       origin: ['http://localhost:3001',
         'http://localhost:3000'],
+      credentials: true,
     }));
     app.use(helmet());
+    app.use(limiter);
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use(cookieParser());
     app.use(requestLogger);
     // роуты
     app.use(UserRouter);
-    app.use((req, res, next) => {
-      next(new NotFoundError(ERR_NOT_FOUND_MSG_ROUTE)); // защитить роут авторизацией
+    app.use(MoviesRouter);
+    app.use(auth, (req, res, next) => {
+      next(new NotFoundError(ERR_NOT_FOUND_MSG_ROUTE));
     });
     app.use(errorLogger);
     app.use(celebrateErrorHandler);

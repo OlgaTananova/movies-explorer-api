@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const validator = require('validator');
 const UnauthorizedError = require('../errors/UnauthorizedError401');
 const { ERR_BAD_REQUEST_MSG_INCORRECT_LOGIN } = require('../constants');
 
@@ -15,9 +14,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    validate: {
-      validator: (value) => validator.isEmail(value),
-    },
   },
   password: {
     type: String,

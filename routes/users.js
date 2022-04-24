@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { celebrate } = require('celebrate');
 const { createUser, updateUserProfile, getCurrentUser } = require('../controllers/users');
-const login = require('../controllers/login');
+const { login, logout } = require('../controllers/login');
 const {
   signupValidationSchema,
   signinValidationSchema,
@@ -14,6 +14,8 @@ const router = Router();
 router.post('/signup', celebrate(signupValidationSchema), createUser);
 // signin
 router.post('/signin', celebrate(signinValidationSchema), login);
+
+router.post('/signout', auth, logout);
 
 // возвращает информацию о пользователе (email и имя)
 // GET /users/me

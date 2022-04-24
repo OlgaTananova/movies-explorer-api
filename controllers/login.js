@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const { MSG_TOKEN_SENT, MSG_TOKEN_DELETED } = require('../constants');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -12,11 +13,15 @@ const login = (req, res, next) => {
         httpOnly: true,
         maxAge: 6.048e+8,
       });
-      res.send({ message: 'Токен отправлен в куки.' });
+      res.send({ message: MSG_TOKEN_SENT });
     })
     .catch((err) => {
       next(err);
     });
 };
 
-module.exports = login;
+const logout = (req, res) => {
+  res.clearCookie('jwt').send({ message: MSG_TOKEN_DELETED });
+};
+
+module.exports = { login, logout };
