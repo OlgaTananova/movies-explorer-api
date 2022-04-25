@@ -50,8 +50,10 @@ const deleteMovie = (req, res, next) => {
   const { id } = req.params;
   const owner = req.user._id;
   Movie.findById(id)
-    .orFail(() => next(new NotFoundError(ERR_NOT_FOUND_MSG_MOVIE)))
     .then((movie) => {
+      if (!movie) {
+        return next(new NotFoundError(ERR_NOT_FOUND_MSG_MOVIE));
+      }
       if (!movie.owner.equals(owner)) {
         return next(new ForbiddenError(ERR_FORBIDDEN_MSG_MOVIE));
       }

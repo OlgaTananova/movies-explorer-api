@@ -14,7 +14,7 @@ const app = express();
 const { PORT = 3000, MONGO_URI } = process.env;
 
 async function start() {
-  await mongoose.connect(MONGO_URI, {
+  await mongoose.connect(MONGO_URI || 'mongodb://localhost:27017/moviesdb_dev', {
     useNewUrlParser: true, // Приложение не запускается, если оставить эти опции активными
     // useCreateIndex: true,
     // useFindAndModify: false,
