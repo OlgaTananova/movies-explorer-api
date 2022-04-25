@@ -6,11 +6,8 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { celebrateErrorHandler, generalErrorHandler } = require('./middlewares/errorHandler');
-const { ERR_GENERAL_MSG, ERR_NOT_FOUND_MSG_ROUTE } = require('./constants');
-const NotFoundError = require('./errors/NotFoundError404');
-const UserRouter = require('./routes/users');
-const MoviesRouter = require('./routes/movies');
-const auth = require('./middlewares/auth');
+const { ERR_GENERAL_MSG } = require('./constants');
+const router = require('./routes/index');
 const limiter = require('./middlewares/limiter');
 
 const app = express();
@@ -30,7 +27,10 @@ start()
   .then(() => {
     app.use(cors({
       origin: ['http://localhost:3001',
-        'http://localhost:3000'],
+        'http://localhost:3000',
+        'http://movie-explorerbyolga.nomoredomains.work',
+        'https://movie-explorerbyolga.nomoredomains.work',
+      ],
       credentials: true,
     }));
     app.use(helmet());
@@ -39,17 +39,12 @@ start()
     app.use(express.urlencoded({ extended: true }));
     app.use(cookieParser());
     app.use(requestLogger);
-    // роуты
-    app.use(UserRouter);
-    app.use(MoviesRouter);
-    app.use(auth, (req, res, next) => {
-      next(new NotFoundError(ERR_NOT_FOUND_MSG_ROUTE));
-    });
+    router(app);
     app.use(errorLogger);
     app.use(celebrateErrorHandler);
     app.use(generalErrorHandler);
   })
   .catch(() => {
-    console.log(ERR_GENERAL_MSG); // Вывод в модальное окно? res.send
+    console.log(ERR_GENERAL_MSG);
     process.exit();
   });
