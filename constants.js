@@ -11,7 +11,7 @@ const ERR_NOT_FOUND_MSG_MOVIE = 'Фильм с таким id не найден.'
 const ERR_NOT_FOUND_MSG_USER = 'Невозможно отобразить информацию о пользователе, возможно, нужна авторизация.';
 const ERR_NOT_FOUND_MSG_MOVIES = 'У вас нет сохраненных фильмов.';
 const ERR_CONFLICT_MSG_SAMEUSER = 'Такой пользователь уже существует.';
-const ERR_CONFLICT_MSG_SAMEMOVIE = 'Такой фильм уже существует.';
+const ERR_CONFLICT_MSG_SAMEMOVIE = 'Такой фильм уже есть в списке сохраненных фильмов.';
 const ERR_BAD_REQUEST_MSG_INCORRECT_DATA = 'Переданы некорректные данные.';
 const ERR_BAD_REQUEST_MSG_INCORRECT_LOGIN = 'Неправильная почта или пароль.';
 const ERR_UNAUTHORIZED_MSG = 'Необходима авторизация.';
@@ -31,7 +31,6 @@ const joiErrorMessages = {
   'string.min': '{#label} должно быть строкой минимум из {#limit} символов.',
   'string.max': '{#label} должно быть строкой максимум из {#limit} символов.',
   'number.base': 'Поле {#label} должно быть числом.',
-  'string.uri': 'Поле {#label} не соответствует формату ссылки.',
   'string.length': 'Некорректный формат {#label}. Должна быть строка из {#limit} символов.',
   'string.hex': 'Некорректный формат {#label}. Должна быть строка из 24 символов.',
 };

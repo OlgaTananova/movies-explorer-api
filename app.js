@@ -34,11 +34,11 @@ start()
       credentials: true,
     }));
     app.use(helmet());
+    app.use(requestLogger);
     app.use(limiter);
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use(cookieParser());
-    app.use(requestLogger);
     router(app);
     app.use(errorLogger);
     app.use(celebrateErrorHandler);

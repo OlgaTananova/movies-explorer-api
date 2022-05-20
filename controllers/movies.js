@@ -3,9 +3,8 @@ const ConflictError = require('../errors/ConflictError409');
 const NotFoundError = require('../errors/NotFoundError404');
 const ForbiddenError = require('../errors/ForbiddenError403');
 const {
-  ERR_CONFLICT_MSG_SAMEMOVIE, ERR_NOT_FOUND_MSG_MOVIE, ERR_FORBIDDEN_MSG_MOVIE,
-  ERR_NOT_FOUND_MSG_MOVIES, MSG_MOVIE_SAVED, MSG_MOVIE_DELETED,
-  ERR_BAD_REQUEST_MSG_INCORRECT_DATA,
+  ERR_CONFLICT_MSG_SAMEMOVIE, ERR_NOT_FOUND_MSG_MOVIE, ERR_FORBIDDEN_MSG_MOVIE, MSG_MOVIE_DELETED,
+  ERR_BAD_REQUEST_MSG_INCORRECT_DATA, MSG_MOVIE_SAVED,
 } = require('../constants');
 const BadRequestError = require('../errors/BadRequestError400');
 
@@ -74,9 +73,6 @@ const getSavedMovies = (req, res, next) => {
   const owner = req.user._id;
   Movie.find({ owner })
     .then((movies) => {
-      if (movies.length === 0) {
-        return next(new NotFoundError(ERR_NOT_FOUND_MSG_MOVIES));
-      }
       res.send(movies);
     })
     .catch((err) => {

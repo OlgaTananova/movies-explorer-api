@@ -17,14 +17,7 @@ const createUser = (req, res, next) => {
     email,
     password,
   } = req.body;
-  User.findOne({ email })
-    .then((user) => {
-      if (user) {
-        throw new ConflictError(ERR_CONFLICT_MSG_SAMEUSER);
-      } else {
-        return bcrypt.hash(password, 10);
-      }
-    })
+  bcrypt.hash(password, 10)
     .then((hash) => User.create({
       name,
       email,
@@ -38,6 +31,9 @@ const createUser = (req, res, next) => {
       });
     })
     .catch((err) => {
+      if (err.code === 11000) {
+        return next(new ConflictError(ERR_CONFLICT_MSG_SAMEUSER));
+      }
       next(err);
     });
 };
