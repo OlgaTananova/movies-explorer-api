@@ -3,8 +3,8 @@ const ConflictError = require('../errors/ConflictError409');
 const NotFoundError = require('../errors/NotFoundError404');
 const ForbiddenError = require('../errors/ForbiddenError403');
 const {
-  ERR_CONFLICT_MSG_SAMEMOVIE, ERR_NOT_FOUND_MSG_MOVIE, ERR_FORBIDDEN_MSG_MOVIE, MSG_MOVIE_DELETED,
-  ERR_BAD_REQUEST_MSG_INCORRECT_DATA, MSG_MOVIE_SAVED,
+  ERR_CONFLICT_MSG_SAMEMOVIE, ERR_NOT_FOUND_MSG_MOVIE, ERR_FORBIDDEN_MSG_MOVIE,
+  ERR_BAD_REQUEST_MSG_INCORRECT_DATA,
 } = require('../constants');
 const BadRequestError = require('../errors/BadRequestError400');
 
@@ -34,8 +34,8 @@ const createMovie = (req, res, next) => {
         owner,
       });
     })
-    .then(() => {
-      res.status(201).send({ message: MSG_MOVIE_SAVED });
+    .then((movie) => {
+      res.status(201).send(movie);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -58,7 +58,7 @@ const deleteMovie = (req, res, next) => {
       }
       return movie.remove()
         .then(() => {
-          res.send({ message: MSG_MOVIE_DELETED });
+          res.send(movie);
         });
     })
     .catch((err) => {

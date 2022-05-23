@@ -33,6 +33,7 @@ const joiErrorMessages = {
   'number.base': 'Поле {#label} должно быть числом.',
   'string.length': 'Некорректный формат {#label}. Должна быть строка из {#limit} символов.',
   'string.hex': 'Некорректный формат {#label}. Должна быть строка из 24 символов.',
+  'string.pattern.base': 'Некорректный формат {#label}. Должна быть строка формата pochta@yandex.ru',
 };
 
 module.exports = {

@@ -35,7 +35,7 @@ const updateProfileValidationSchema = {
     name: Joi.string().required().min(2).max(30)
       .label('Имя пользователя')
       .messages(joiErrorMessages),
-    email: Joi.string().email().label('Email').required()
+    email: Joi.string().pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).label('Email').required()
       .messages(joiErrorMessages),
   }),
 };
