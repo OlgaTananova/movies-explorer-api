@@ -27,6 +27,7 @@ start()
       origin: ['http://localhost:3001',
         'http://localhost:3000',
         'https://olgatananova.github.io',
+        'https://movies-explorer-bnzw.onrender.com',
       ],
       credentials: true,
     }));
