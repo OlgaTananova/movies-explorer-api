@@ -11,13 +11,11 @@ const router = require('./routes/index');
 const limiter = require('./middlewares/limiter');
 
 const app = express();
-const { PORT = 3000, MONGO_URI } = process.env;
+const { PORT = 3000, PASSWORD, USER } = process.env;
 
 async function start() {
-  await mongoose.connect(MONGO_URI || 'mongodb://localhost:27017/moviesdb_dev', {
-    useNewUrlParser: true, // Приложение не запускается, если оставить эти опции активными
-    // useCreateIndex: true,
-    // useFindAndModify: false,
+  await mongoose.connect(`mongodb+srv://${USER}:${PASSWORD}@cluster0.ytxayd2.mongodb.net/movie-explorer`, {
+    useNewUrlParser: true,
   });
   app.listen(PORT, () => {
     console.log(`App listening on PORT ${PORT}`);
@@ -28,8 +26,7 @@ start()
     app.use(cors({
       origin: ['http://localhost:3001',
         'http://localhost:3000',
-        'http://movie-explorerbyolga.nomoredomains.work',
-        'https://movie-explorerbyolga.nomoredomains.work',
+        'https://olgatananova.github.io',
       ],
       credentials: true,
     }));
