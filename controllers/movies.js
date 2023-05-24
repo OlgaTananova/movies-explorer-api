@@ -10,27 +10,22 @@ const BadRequestError = require('../errors/BadRequestError400');
 
 const createMovie = (req, res, next) => {
   const {
-    country, director, duration, year, description, image, trailerLink, nameRU,
-    nameEN, thumbnail, movieId,
+    id, rating, year, overview, image, descriptionLink, title,
   } = req.body;
   const owner = req.user._id;
-  Movie.findOne({ owner, movieId })
+  Movie.findOne({ owner, id })
     .then((movie) => {
       if (movie) {
         return next(new ConflictError(ERR_CONFLICT_MSG_SAMEMOVIE));
       }
       return Movie.create({
-        country,
-        director,
-        duration,
+        id,
         year,
-        description,
+        overview,
         image,
-        trailerLink,
-        nameRU,
-        nameEN,
-        thumbnail,
-        movieId,
+        title,
+        descriptionLink,
+        rating,
         owner,
       });
     })
